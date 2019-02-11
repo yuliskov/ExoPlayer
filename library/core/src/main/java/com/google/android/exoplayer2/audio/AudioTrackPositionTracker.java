@@ -506,7 +506,16 @@ import java.lang.reflect.Method;
       return 0;
     }
 
-    long rawPlaybackHeadPosition = 0xFFFFFFFFL & audioTrack.getPlaybackHeadPosition();
+    long rawPlaybackHeadPosition;
+
+    if (Util.SDK_INT < 19) {
+      rawPlaybackHeadPosition = 0xFFFFFFFFL & audioTrack.getPlaybackHeadPosition();
+    } else {
+      AudioTimestamp timestamp = new AudioTimestamp();
+      audioTrack.getTimestamp(timestamp);
+      rawPlaybackHeadPosition = timestamp.framePosition;
+    }
+
     if (needsPassthroughWorkarounds) {
       // Work around an issue with passthrough/direct AudioTracks on platform API versions 21/22
       // where the playback head position jumps back to zero on paused passthrough/direct audio
