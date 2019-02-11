@@ -513,7 +513,7 @@ import java.lang.reflect.Method;
     } else {
       AudioTimestamp timestamp = new AudioTimestamp();
       audioTrack.getTimestamp(timestamp);
-      rawPlaybackHeadPosition = timestamp.framePosition + (System.nanoTime() - timestamp.nanoTime) * outputSampleRate / 1e9;
+      rawPlaybackHeadPosition = timestamp.framePosition + (System.nanoTime() - timestamp.nanoTime) * outputSampleRate / 0x1e9;
     }
 
     if (needsPassthroughWorkarounds) {
